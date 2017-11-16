@@ -150,6 +150,15 @@ export default {
     })
   },
   methods: {
+<<<<<<< HEAD
+=======
+    setContent(value) {
+      window.tinymce.get(this.tinymceId).setContent(value)
+    },
+    getContent() {
+      window.tinymce.get(this.tinymceId).getContent()
+    },
+>>>>>>> c769c5cd6980d39bd192a39120999e832790ada1
     imageSuccessCBK(arr) {
       const _this = this
       arr.forEach(v => {
