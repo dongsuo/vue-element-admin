@@ -34,20 +34,12 @@
 					<div class="info-item">
 						<count-to class="info-item-num" :startVal='0' :endVal='statisticsData.article_count' :duration='3400'></count-to>
 						<span class="info-item-text">文章</span>
-<<<<<<< HEAD
-						<icon-svg icon-class="a" class="dashboard-editor-icon"></icon-svg>
-=======
 						<icon-svg icon-class="trendChart1" class="dashboard-editor-icon"></icon-svg>
->>>>>>> c769c5cd6980d39bd192a39120999e832790ada1
 					</div>
 					<div class="info-item">
 						<count-to class="info-item-num" :startVal='0' :endVal='statisticsData.pageviews_count' :duration='3600'></count-to>
 						<span class="info-item-text">浏览量</span>
-<<<<<<< HEAD
-						<icon-svg icon-class="b" class="dashboard-editor-icon"></icon-svg>
-=======
 						<icon-svg icon-class="trendChart2" class="dashboard-editor-icon"></icon-svg>
->>>>>>> c769c5cd6980d39bd192a39120999e832790ada1
 					</div>
 				</el-card>
 			</el-col>

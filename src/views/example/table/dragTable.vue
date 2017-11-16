@@ -47,11 +47,7 @@
 
       <el-table-column align="center" label="拖拽" width="95">
         <template scope="scope">
-<<<<<<< HEAD
-          <icon-svg class='drag-handler' icon-class="tuozhuai"></icon-svg>
-=======
           <icon-svg class='drag-handler' icon-class="drag"></icon-svg>
->>>>>>> c769c5cd6980d39bd192a39120999e832790ada1
         </template>
       </el-table-column>
 

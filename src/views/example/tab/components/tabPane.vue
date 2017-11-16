@@ -29,11 +29,7 @@
 
     <el-table-column width="80px" label="重要性">
       <template scope="scope">
-<<<<<<< HEAD
-        <icon-svg v-for="n in +scope.row.importance" icon-class="wujiaoxing" :key="n"></icon-svg>
-=======
         <icon-svg v-for="n in +scope.row.importance" icon-class="star" :key="n"></icon-svg>
->>>>>>> c769c5cd6980d39bd192a39120999e832790ada1
       </template>
     </el-table-column>
 
