@@ -24,14 +24,6 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-import MdInput from '@/components/MDinput'
-import PanThumb from '@/components/PanThumb'
-import waves from '@/directive/waves.js' // 水波纹指令
-
-export default {
-  components: { MdInput, PanThumb },
-=======
 import PanThumb from '@/components/PanThumb'
 import MdInput from '@/components/MDinput'
 import waves from '@/directive/waves/index.js' // 水波纹指令
@@ -41,15 +33,10 @@ export default {
     PanThumb,
     MdInput
   },
->>>>>>> c769c5cd6980d39bd192a39120999e832790ada1
   directives: {
     waves
   },
   data() {
-<<<<<<< HEAD
-    return {
-      title: ''
-=======
     const validate = (rule, value, callback) => {
       if (value.length !== 6) {
         callback(new Error('请输入六个字符'))
@@ -64,7 +51,6 @@ export default {
       demoRules: {
         title: [{ required: true, trigger: 'change', validator: validate }]
       }
->>>>>>> c769c5cd6980d39bd192a39120999e832790ada1
     }
   }
 }

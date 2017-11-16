@@ -1,10 +1,6 @@
 <template>
   <transition :name="transitionName">
-<<<<<<< HEAD
-    <div class="back-to-top" @click="backToTop" v-show="visible" :style="customStyle">
-=======
     <div class="back-to-ceiling" @click="backToTop" v-show="visible" :style="customStyle">
->>>>>>> c769c5cd6980d39bd192a39120999e832790ada1
       <svg width="16" height="16" viewBox="0 0 17 17" xmlns="http://www.w3.org/2000/svg" class="Icon Icon--backToTopArrow" aria-hidden="true" style="height: 16px; width: 16px;">
         <title>回到顶部</title>
         <g>
@@ -86,22 +82,14 @@ export default {
 </script>
 
 <style scoped>
-<<<<<<< HEAD
-  .back-to-top {
-=======
   .back-to-ceiling {
->>>>>>> c769c5cd6980d39bd192a39120999e832790ada1
     position: fixed;
     display: inline-block;
     text-align: center;
     cursor: pointer;
   }
 
-<<<<<<< HEAD
-  .back-to-top:hover {
-=======
   .back-to-ceiling:hover {
->>>>>>> c769c5cd6980d39bd192a39120999e832790ada1
     background: #d5dbe7;
   }
 
@@ -115,11 +103,7 @@ export default {
     opacity: 0
   }
 
-<<<<<<< HEAD
-  .back-to-top .Icon {
-=======
   .back-to-ceiling .Icon {
->>>>>>> c769c5cd6980d39bd192a39120999e832790ada1
     fill: #9aaabf;
     background: none;
   }
