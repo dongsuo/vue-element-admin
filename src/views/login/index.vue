@@ -5,18 +5,18 @@
       <div class='tips'>账号： admin 或 editor ; 密码随意</div>
       <el-form-item prop="username">
         <span class="svg-container svg-container_login">
-          <icon-svg icon-class="user" />
+          <svg-icon icon-class="user" />
         </span>
         <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="账号" class="login-input"/>
       </el-form-item>
 
       <el-form-item prop="password">
         <span class="svg-container">
-          <icon-svg icon-class="password" />
+          <svg-icon icon-class="password" />
         </span>
         <el-input name="password" :type="pwdType" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on"
-          placeholder="密码"  class="login-input" />
-        <span class='show-pwd' @click='showPwd'><icon-svg icon-class="eye" /></span>
+          placeholder="密码" class="login-input" />
+        <span class="show-pwd" @click="showPwd"><svg-icon icon-class="eye" /></span>
       </el-form-item>
 
       <el-button type="primary" class="login-btn"
@@ -24,7 +24,10 @@
       @click.native.prevent="handleLogin">登 录</el-button>
       <a @click='showDialog=true' class="third-part-login"style="text-decoration:underline;">打开第三方登录</a>
 
+      <div class="tips">账号:admin 密码随便填</div>
+      <div class="tips">账号:editor  密码随便填</div>
 
+      <el-button class="thirdparty-button" type="primary" @click="showDialog=true">打开第三方登录</el-button>
     </el-form>
 
     <el-dialog title="第三方验证" :visible.sync="showDialog">
@@ -89,20 +92,15 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = 'loading'
-          // this.loading
-          this.$store
-            .dispatch('LoginByUsername', this.loginForm)
-            .then(() => {
-              setTimeout(() => {
-                this.loading = 'success'
-                this.$router.push({ path: '/dashboard' })
-              }, 500)
-              // window.reload()
-              // this.showDialog = true
-            })
-            .catch(() => {
-              this.loading = false
-            })
+          this.$store.dispatch('LoginByUsername', this.loginForm).then(() => {
+            setTimeout(() => {
+              this.loading = 'success'
+              this.$router.push({ path: '/dashboard' })
+            }, 500)
+            // this.showDialog = true
+          }).catch(() => {
+            this.loading = false
+          })
         } else {
           console.log('error submit!!')
           return false
@@ -127,6 +125,9 @@ export default {
       //   })
       // }
     }
+  },
+  created() {
+    // window.addEventListener('hashchange', this.afterQRScan)
   },
   destroyed() {
     // window.removeEventListener('hashchange', this.afterQRScan)
@@ -226,17 +227,26 @@ $light_gray: #55678b;
     }
   }
   @keyframes success {
-    0%{
-      height: 25px;
-      width: 40px;
-      opacity: 0;
+      0%{
+        height: 25px;
+        width: 40px;
+        opacity: 0;
+      }
+      100%{
+        height: 15px;
+        width: 30px;
+        opacity: 1;
+      }
     }
-    100%{
-      height: 15px;
-      width: 30px;
-      opacity: 1;
+  .show-pwd {
+      position: absolute;
+      right: 10px;
+      top: 7px;
+      font-size: 16px;
+      color: $dark_gray;
+      cursor: pointer;
+      user-select:none;
     }
-  }
   .tips {
     text-align: center;
     font-size: 12px;
