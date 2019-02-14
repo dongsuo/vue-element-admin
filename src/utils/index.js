@@ -11,7 +11,12 @@ export function parseTime(time, cFormat) {
   if (typeof time === 'object') {
     date = time
   } else {
-    if (('' + time).length === 10) time = parseInt(time) * 1000
+    if ((typeof time === 'string') && (/^[0-9]+$/.test(time))) {
+      time = parseInt(time)
+    }
+    if ((typeof time === 'number') && (time.toString().length === 10)) {
+      time = time * 1000
+    }
     date = new Date(time)
   }
   const formatObj = {
@@ -25,7 +30,8 @@ export function parseTime(time, cFormat) {
   }
   const time_str = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
     let value = formatObj[key]
-    if (key === 'a') return ['一', '二', '三', '四', '五', '六', '日'][value - 1]
+    // Note: getDay() returns 0 on Sunday
+    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value ] }
     if (result.length > 0 && value < 10) {
       value = '0' + value
     }
@@ -43,7 +49,8 @@ export function formatTime(time, option) {
 
   if (diff < 30) {
     return '刚刚'
-  } else if (diff < 3600) { // less 1 hour
+  } else if (diff < 3600) {
+    // less 1 hour
     return Math.ceil(diff / 60) + '分钟前'
   } else if (diff < 3600 * 24) {
     return Math.ceil(diff / 3600) + '小时前'
@@ -53,7 +60,17 @@ export function formatTime(time, option) {
   if (option) {
     return parseTime(time, option)
   } else {
-    return d.getMonth() + 1 + '月' + d.getDate() + '日' + d.getHours() + '时' + d.getMinutes() + '分'
+    return (
+      d.getMonth() +
+      1 +
+      '月' +
+      d.getDate() +
+      '日' +
+      d.getHours() +
+      '时' +
+      d.getMinutes() +
+      '分'
+    )
   }
 }
 
@@ -81,9 +98,11 @@ export function getQueryObject(url) {
 export function getByteLen(val) {
   let len = 0
   for (let i = 0; i < val.length; i++) {
-    if (val[i].match(/[^\x00-\xff]/ig) != null) {
+    if (val[i].match(/[^\x00-\xff]/gi) != null) {
       len += 1
-    } else { len += 0.5 }
+    } else {
+      len += 0.5
+    }
   }
   return Math.floor(len)
 }
@@ -100,11 +119,12 @@ export function cleanArray(actual) {
 
 export function param(json) {
   if (!json) return ''
-  return cleanArray(Object.keys(json).map(key => {
-    if (json[key] === undefined) return ''
-    return encodeURIComponent(key) + '=' +
-            encodeURIComponent(json[key])
-  })).join('&')
+  return cleanArray(
+    Object.keys(json).map(key => {
+      if (json[key] === undefined) return ''
+      return encodeURIComponent(key) + '=' + encodeURIComponent(json[key])
+    })
+  ).join('&')
 }
 
 export function param2Obj(url) {
@@ -112,7 +132,14 @@ export function param2Obj(url) {
   if (!search) {
     return {}
   }
-  return JSON.parse('{"' + decodeURIComponent(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}')
+  return JSON.parse(
+    '{"' +
+      decodeURIComponent(search)
+        .replace(/"/g, '\\"')
+        .replace(/&/g, '","')
+        .replace(/=/g, '":"') +
+      '"}'
+  )
 }
 
 export function html2Text(val) {
@@ -131,29 +158,15 @@ export function objectMerge(target, source) {
   if (Array.isArray(source)) {
     return source.slice()
   }
-  for (const property in source) {
-    if (source.hasOwnProperty(property)) {
-      const sourceProperty = source[property]
-      if (typeof sourceProperty === 'object') {
-        target[property] = objectMerge(target[property], sourceProperty)
-        continue
-      }
+  Object.keys(source).forEach(property => {
+    const sourceProperty = source[property]
+    if (typeof sourceProperty === 'object') {
+      target[property] = objectMerge(target[property], sourceProperty)
+    } else {
       target[property] = sourceProperty
     }
-  }
+  })
   return target
-}
-
-export function scrollTo(element, to, duration) {
-  if (duration <= 0) return
-  const difference = to - element.scrollTop
-  const perTick = difference / duration * 10
-  setTimeout(() => {
-    console.log(new Date())
-    element.scrollTop = element.scrollTop + perTick
-    if (element.scrollTop === to) return
-    scrollTo(element, to, duration - 10)
-  }, 10)
 }
 
 export function toggleClass(element, className) {
@@ -165,7 +178,9 @@ export function toggleClass(element, className) {
   if (nameIndex === -1) {
     classString += '' + className
   } else {
-    classString = classString.substr(0, nameIndex) + classString.substr(nameIndex + className.length)
+    classString =
+      classString.substr(0, nameIndex) +
+      classString.substr(nameIndex + className.length)
   }
   element.className = classString
 }
@@ -179,7 +194,8 @@ export const pickerOptions = [
       end.setTime(start.getTime())
       picker.$emit('pick', [start, end])
     }
-  }, {
+  },
+  {
     text: '最近一周',
     onClick(picker) {
       const end = new Date(new Date().toDateString())
@@ -187,7 +203,8 @@ export const pickerOptions = [
       start.setTime(end.getTime() - 3600 * 1000 * 24 * 7)
       picker.$emit('pick', [start, end])
     }
-  }, {
+  },
+  {
     text: '最近一个月',
     onClick(picker) {
       const end = new Date(new Date().toDateString())
@@ -195,7 +212,8 @@ export const pickerOptions = [
       start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
       picker.$emit('pick', [start, end])
     }
-  }, {
+  },
+  {
     text: '最近三个月',
     onClick(picker) {
       const end = new Date(new Date().toDateString())
@@ -203,7 +221,8 @@ export const pickerOptions = [
       start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
       picker.$emit('pick', [start, end])
     }
-  }]
+  }
+]
 
 export function getTime(type) {
   if (type === 'start') {
@@ -248,20 +267,30 @@ export function debounce(func, wait, immediate) {
   }
 }
 
+/**
+ * This is just a simple version of deep copy
+ * Has a lot of edge cases bug
+ * If you want to use a perfect deep copy, use lodash's _.cloneDeep
+ */
 export function deepClone(source) {
   if (!source && typeof source !== 'object') {
     throw new Error('error arguments', 'shallowClone')
   }
   const targetObj = source.constructor === Array ? [] : {}
-  for (const keys in source) {
-    if (source.hasOwnProperty(keys)) {
-      if (source[keys] && typeof source[keys] === 'object') {
-        targetObj[keys] = source[keys].constructor === Array ? [] : {}
-        targetObj[keys] = deepClone(source[keys])
-      } else {
-        targetObj[keys] = source[keys]
-      }
+  Object.keys(source).forEach(keys => {
+    if (source[keys] && typeof source[keys] === 'object') {
+      targetObj[keys] = deepClone(source[keys])
+    } else {
+      targetObj[keys] = source[keys]
     }
-  }
+  })
   return targetObj
+}
+
+export function uniqueArr(arr) {
+  return Array.from(new Set(arr))
+}
+
+export function isExternal(path) {
+  return /^(https?:|mailto:|tel:)/.test(path)
 }
